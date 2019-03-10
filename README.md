@@ -24,16 +24,6 @@ To access the service, you must first obtain the ingress IP with the following c
 
 To remove the running containers, this is most easily achieved by executing: `kubectl delete -f go-hello-deploy.yaml`
 
-## Using Concourse-CI
-
-* firstly, cd to the ci folder and run concourse-ci using docker-compose: `cd ci; docker-compose up -d` and test by accessing `http://localhost:8080`
-* Download fly (`http://localhost:8080/api/v1/cli?arch=amd64&platform=linux`) and put it somewhere in $PATH
-* login to concourse with `fly --target localhost login --concourse-url http://127.0.0.1:8080 -u admin -p admin; fly --target localhost sync`
-* execute fly and commission the build pipeline: `fly -t localhost sp -p go-hello -c ci-main-pipeline.yml -v dockerhub-username='*****' -v dockerhub-password='*****' && fly -t localhost up -p go-hello`
-* Concourse should now regularly check for git changes, and when detected it will pull, run the go tests, and if successful build and publish the container to dockerhub
-
-From here, we can trigger redeployments into minikube as concourse-ci pipelines that are triggered by the above successful publish, should we choose.
-
 ## go-hello
 
 go-hello is automatically built as part of the `docker build`, but should you wish to do this manually, the simplest solution is to simply run `go build` in the go-hello directory.
@@ -83,3 +73,13 @@ Although out of scope for the request, future improvements may include:
 * structured logging (I like using JSON based log messages for easy ingest into log collection platforms) output
 * more robust testing
 * CI/CD Pipeline tooling, such as AWS CodeBuild/CodeDeploy or GoCD/Helm, or Spinnaker etc.
+
+## Using Concourse-CI
+
+* firstly, cd to the ci folder and run concourse-ci using docker-compose: `cd ci; docker-compose up -d` and test by accessing `http://localhost:8080`
+* Download fly (`http://localhost:8080/api/v1/cli?arch=amd64&platform=linux`) and put it somewhere in $PATH
+* login to concourse with `fly --target localhost login --concourse-url http://127.0.0.1:8080 -u admin -p admin; fly --target localhost sync`
+* execute fly and commission the build pipeline: `fly -t localhost sp -p go-hello -c ci-main-pipeline.yml -v dockerhub-username='*****' -v dockerhub-password='*****' && fly -t localhost up -p go-hello`
+* Concourse should now regularly check for git changes, and when detected it will pull, run the go tests, and if successful build and publish the container to dockerhub
+
+From here, we can trigger redeployments into minikube as concourse-ci pipelines that are triggered by the above successful publish, should we choose.
