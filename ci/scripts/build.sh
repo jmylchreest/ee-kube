@@ -14,8 +14,7 @@ if [[ ${ret} > 0 ]]; then
 fi
 
 # craft outputs in case we use them later
-mkdir dist
-cp -r . dist
+mkdir dist/
 
 echo "dist output:"
 ls -l dist/
