@@ -1,0 +1,25 @@
+resources:
+  - name: ee-kube-git
+    type: git
+    source:
+      uri: http://github.com/jmylchreest/ee-kube.git
+      branch: master
+
+jobs:
+  - name: job-build-test
+    plan:
+      - get: ee-kube-git
+        trigger: true
+      - task: task-build-test
+        config:
+          platform: linux
+          image_resource:
+            type: docker-image
+            source:
+              repository: golang
+          inputs:
+            - name: ee-kube-git
+          run:
+            dir: ee-kube-git
+            # path: scripts/build.sh
+            path: ls
