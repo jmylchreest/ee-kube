@@ -7,7 +7,7 @@ resources:
   - name: ee-kube-dockerhub-image
     type: docker-image
     source:
-      repository: jmylchreest/ee-kube
+      repository: jmylchreest/go-hello
       username: {{dockerhub-username}}
       password: {{dockerhub-password}}
 
