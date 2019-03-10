@@ -9,8 +9,8 @@ go test
 ret=$?
 cd ..
 
-if $ret > 0 then
-    exit $ret
+if [[ ${ret} > 0 ]] then
+    exit ${ret}
 fi
 
 # craft outputs in case we use them later
