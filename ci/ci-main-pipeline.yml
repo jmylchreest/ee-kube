@@ -4,6 +4,12 @@ resources:
     source:
       uri: http://github.com/jmylchreest/ee-kube.git
       branch: master
+  - name: ee-kube-dockerhub-image
+    type: docker-image
+    source:
+      repository: jmylchreest/ee-kube
+      username: {{dockerhub-username}}
+      password: {{dockerhub-password}}
 
 jobs:
   - name: job-build-test
@@ -21,5 +27,13 @@ jobs:
             - name: ee-kube-git
           run:
             dir: ee-kube-git
-            # path: scripts/build.sh
             path: ci/scripts/build.sh
+          outputs:
+            - name: ee-kube-git-tested      
+  - name: job-build-push-image
+    plan:
+      - get: ee-kube-git
+        passed: [job-build-test]
+      - put: ee-kube-dockerhub-image
+        params:
+          build: ee-kube-git-tested

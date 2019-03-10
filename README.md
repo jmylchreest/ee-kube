@@ -29,7 +29,7 @@ To remove the running containers, this is most easily achieved by executing: `ku
 * firstly, cd to the ci folder and run concourse-ci using docker-compose: `cd ci; docker-compose up -d` and test by accessing `http://localhost:8080`
 * Download fly (`http://localhost:8080/api/v1/cli?arch=amd64&platform=linux`) and put it somewhere in $PATH
 * login to concourse with `fly --target localhost login --concourse-url http://127.0.0.1:8080 -u admin -p admin; fly --target localhost sync`
-* execute fly and commission the build pipeline: `fly -t localhost sp -p go-hello -c ci-main-pipeline.yml && fly -t localhost up -p go-hello`
+* execute fly and commission the build pipeline: `fly -t localhost sp -p go-hello -c ci-main-pipeline.yml -v dockerhub-username='*****' -v dockerhub-password='*****' && fly -t localhost up -p go-hello`
 
 ## go-hello
 
