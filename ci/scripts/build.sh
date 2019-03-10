@@ -9,7 +9,7 @@ go test
 ret=$?
 cd ..
 
-if [[ ${ret} > 0 ]] then
+if [[ ${ret} > 0 ]]; then
     exit ${ret}
 fi
 
