@@ -12,7 +12,7 @@ resources:
       password: {{dockerhub-password}}
 
 jobs:
-  - name: job-build-test
+  - name: job-build-test-push
     plan:
       - get: ee-kube-git
         trigger: true
@@ -28,14 +28,7 @@ jobs:
           run:
             dir: ee-kube-git
             path: ci/scripts/build.sh
-          outputs:
-            - name: ee-kube-git-tested
-              path: ee-kube-git
-  - name: job-build-push-image
-    plan:
-      - get: ee-kube-git
-        passed: [job-build-test]
-        trigger: true
-      - put: ee-kube-dockerhub-image
-        params:
-          build: ee-kube-git-tested
+    on_success:
+      put: ee-kube-dockerhub-image
+      params:
+        build: ee-kube-git
