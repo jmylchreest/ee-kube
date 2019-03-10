@@ -15,6 +15,7 @@ fi
 
 # craft outputs in case we use them later
 mkdir dist/
+cp -R Dockerfile go-hello dist/
 
 echo "dist output:"
 ls -l dist/
