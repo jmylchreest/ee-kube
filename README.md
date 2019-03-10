@@ -5,7 +5,6 @@
 For the purposes of this project, we make the following assumptions
 
 * you are executing this on a linux machine
-* you have a working go install
 * you have a working minikube installation with the nginx-ingress controller installed
 * you have a working docker installation
 
@@ -24,6 +23,13 @@ you may then check to ensure the pods are correctly running by executing `kubect
 To access the service, you must first obtain the ingress IP with the following command `kubectl get ingress go-hello-ingress`. Assuming the IP provided is: 192.168.122.138 you may then test the service by executing `curl -v http://192.168.122.138/` multiple times. Please note, it may take several minutes before minikube provides an ingress IP through the CLI tools.
 
 To remove the running containers, this is most easily achieved by executing: `kubectl delete -f go-hello-deploy.yaml`
+
+## Using Concourse-CI
+
+* firstly, cd to the ci folder and run concourse-ci using docker-compose: `cd ci; docker-compose up -d` and test by accessing `http://localhost:8080`
+* Download fly (`http://localhost:8080/api/v1/cli?arch=amd64&platform=linux`) and put it somewhere in $PATH
+* login to concourse with `fly --target localhost login --concourse-url http://127.0.0.1:8080 -u admin -p admin; fly --target localhost sync`
+* execute fly and commission the build pipeline: `fly -t localhost sp -p go-hello -c ci-main-pipeline.yml && fly -t localhost up -p go-hello`
 
 ## go-hello
 
